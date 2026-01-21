@@ -18,6 +18,8 @@ public class AnalyzeEndpoint(
         AllowAnonymous();
         AllowFileUploads();
 
+        Options(x => x.RequireRateLimiting("PerUserLimit"));
+
         Summary(s =>
         {
             s.Summary = "Analyze a photo and generate Instagram content";

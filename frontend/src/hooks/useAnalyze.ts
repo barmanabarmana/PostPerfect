@@ -25,7 +25,11 @@ export function useAnalyze(): UseAnalyzeReturn {
       const response = await analyzePhoto(photo, vibe, language, hints);
       setResult(response);
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to analyze photo');
+      if (err.response?.status === 429) {
+        setError('Rate limit exceeded. You can only analyze 10 photos per minute. Please wait a moment and try again.');
+      } else {
+        setError(err.response?.data?.error || 'Failed to analyze photo');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -40,7 +44,11 @@ export function useAnalyze(): UseAnalyzeReturn {
       const response = await analyzePhoto(photo, vibe, language, hints);
       setResult(response);
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to analyze photo');
+      if (err.response?.status === 429) {
+        setError('Rate limit exceeded. You can only analyze 10 photos per minute. Please wait a moment and try again.');
+      } else {
+        setError(err.response?.data?.error || 'Failed to analyze photo');
+      }
     } finally {
       setIsLoading(false);
     }

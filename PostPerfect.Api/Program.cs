@@ -2,8 +2,36 @@ using FastEndpoints;
 using FastEndpoints.Swagger;
 using PostPerfect.Api.Common.Extensions;
 using Scalar.AspNetCore;
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Rate Limiting
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddFixedWindowLimiter("UserRateLimit", limiterOptions =>
+    {
+        limiterOptions.PermitLimit = 10;
+        limiterOptions.Window = TimeSpan.FromMinutes(1);
+        limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        limiterOptions.QueueLimit = 0;
+    });
+
+    // Per-user (IP-based) rate limiting
+    options.AddPolicy("PerUserLimit", httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 10,
+                Window = TimeSpan.FromMinutes(1),
+                QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                QueueLimit = 0
+            }));
+});
 
 // FastEndpoints
 builder.Services
@@ -42,6 +70,7 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 app.UseCors("Frontend");
+app.UseRateLimiter();
 app.UseFastEndpoints();
 
 if (app.Environment.IsDevelopment())
