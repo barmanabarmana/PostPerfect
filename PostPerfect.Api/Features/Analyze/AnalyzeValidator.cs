@@ -30,5 +30,10 @@ public class AnalyzeValidator : Validator<AnalyzeRequest>
             .MaximumLength(50)
             .When(x => x.Vibe is not null)
             .WithMessage("Vibe must not exceed 50 characters");
+
+        RuleFor(x => x.Hints)
+            .MaximumLength(200)
+            .When(x => x.Hints is not null)
+            .WithMessage("Hints must not exceed 200 characters");
     }
 }

@@ -7,6 +7,7 @@ public interface IClaudeService
         string contentType,
         string? vibe = null,
         string? language = null,
+        string? hints = null,
         CancellationToken ct = default
     );
 }

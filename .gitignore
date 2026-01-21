@@ -66,6 +66,9 @@ dist-ssr/
 .vscode/
 *.code-workspace
 
+# Claude Code
+.claude/
+
 # ========================================
 # Operating System Files
 # ========================================

@@ -28,10 +28,11 @@ public class AnalyzeEndpoint(
     public override async Task HandleAsync(AnalyzeRequest req, CancellationToken ct)
     {
         logger.LogInformation(
-            "Analyzing image: {FileName}, Size: {Size}, Vibe: {Vibe}",
+            "Analyzing image: {FileName}, Size: {Size}, Vibe: {Vibe}, Hints: {Hints}",
             req.Photo.FileName,
             req.Photo.Length,
-            req.Vibe ?? "auto");
+            req.Vibe ?? "auto",
+            req.Hints ?? "none");
 
         // Read image bytes (stateless - not stored)
         using var memoryStream = new MemoryStream();
@@ -44,6 +45,7 @@ public class AnalyzeEndpoint(
             req.Photo.ContentType,
             req.Vibe,
             req.Language,
+            req.Hints,
             ct);
 
         logger.LogInformation(

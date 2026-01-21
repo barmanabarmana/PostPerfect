@@ -5,25 +5,12 @@ interface VibePickerProps {
 }
 
 const VIBES = [
-  { id: 'chill', emoji: '😌', label: 'Chill' },
-  { id: 'energetic', emoji: '⚡', label: 'Energetic' },
-  { id: 'romantic', emoji: '💕', label: 'Romantic' },
-  { id: 'moody', emoji: '🌙', label: 'Moody' },
-  { id: 'adventurous', emoji: '🌄', label: 'Adventurous' },
+  { id: 'philosophical', emoji: '🧠', label: 'Philosophical' },
+  { id: 'sad', emoji: '😔', label: 'Sad' },
   { id: 'happy', emoji: '☀️', label: 'Happy' },
   { id: 'nostalgic', emoji: '🕰️', label: 'Nostalgic' },
-  { id: 'dreamy', emoji: '✨', label: 'Dreamy' },
-  { id: 'peaceful', emoji: '🕊️', label: 'Peaceful' },
-  { id: 'mysterious', emoji: '🔮', label: 'Mysterious' },
-  { id: 'confident', emoji: '💪', label: 'Confident' },
-  { id: 'playful', emoji: '🎨', label: 'Playful' },
-  { id: 'elegant', emoji: '👑', label: 'Elegant' },
-  { id: 'wild', emoji: '🦁', label: 'Wild' },
-  { id: 'cozy', emoji: '🧸', label: 'Cozy' },
-  { id: 'inspiring', emoji: '🌟', label: 'Inspiring' },
-  { id: 'philosophical', emoji: '🧠', label: 'Philosophical' },
-  { id: 'humour', emoji: '😄', label: 'Humour' },
-  { id: 'dark-humour', emoji: '💀', label: 'Dark Humour' },
+  { id: 'romantic', emoji: '💕', label: 'Romantic' },
+  { id: 'chill', emoji: '😌', label: 'Chill' },
 ];
 
 export function VibePicker({ selectedVibes, onVibeSelect, disabled }: VibePickerProps) {
@@ -37,7 +24,7 @@ export function VibePicker({ selectedVibes, onVibeSelect, disabled }: VibePicker
 
   return (
     <div className="space-y-3">
-      <p className="text-neutral-400 text-sm">Choose vibes (optional, can select multiple)</p>
+      <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Choose vibes (optional, can select multiple)</p>
       <div className="flex flex-wrap gap-2">
         {VIBES.map((vibe) => (
           <button
@@ -45,12 +32,19 @@ export function VibePicker({ selectedVibes, onVibeSelect, disabled }: VibePicker
             onClick={() => handleVibeClick(vibe.id)}
             disabled={disabled}
             className={`
-              px-4 py-2 rounded-full text-sm font-medium transition-all
+              px-4 py-2 rounded text-sm font-medium transition-all hover:scale-105 active:scale-95
               ${selectedVibes.includes(vibe.id)
-                ? 'bg-neutral-700 text-white border border-neutral-600'
-                : 'bg-neutral-900 text-neutral-300 hover:bg-neutral-800 border border-neutral-800'}
-              ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+                ? 'bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F77737] text-white'
+                : ''}
+              ${disabled ? 'opacity-50 cursor-not-allowed hover:scale-100' : ''}
             `}
+            style={!selectedVibes.includes(vibe.id) ? {
+              backgroundColor: 'var(--bg-surface)',
+              color: 'var(--text-secondary)',
+              borderWidth: '1px',
+              borderStyle: 'solid',
+              borderColor: 'var(--border-color)'
+            } : {}}
           >
             {vibe.emoji} {vibe.label}
           </button>

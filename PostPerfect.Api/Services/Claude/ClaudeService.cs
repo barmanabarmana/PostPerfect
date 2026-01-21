@@ -25,6 +25,7 @@ public class ClaudeService : IClaudeService
         string contentType,
         string? vibe = null,
         string? language = null,
+        string? hints = null,
         CancellationToken ct = default)
     {
         var base64Image = Convert.ToBase64String(imageBytes);
@@ -57,8 +58,12 @@ public class ClaudeService : IClaudeService
         var languageInstruction = string.IsNullOrEmpty(language) || !languageMap.ContainsKey(language)
             ? "Generate the quote in English."
             : $"Generate the quote in {languageMap[language]}. The quote must be written entirely in {languageMap[language]}.";
-        
-        var prompt = @$"You are an expert Instagram content analyst and caption writer. {vibeInstruction} {languageInstruction}
+
+        var hintsInstruction = string.IsNullOrEmpty(hints)
+            ? ""
+            : $"\n\nCONTEXT HINTS: The user provided these keywords to help you understand the photo better: \"{hints}\". Use these hints to inform your understanding of who/what is in the photo, the occasion, relationships, or context. Make the caption more personal and accurate based on these hints.";
+
+        var prompt = @$"You are an expert Instagram content analyst and caption writer. {vibeInstruction} {languageInstruction}{hintsInstruction}
 
 VARIATION SEED: {Guid.NewGuid().ToString().Substring(0, 8)}
 Generate a COMPLETELY DIFFERENT caption than any previous attempt.
@@ -229,15 +234,27 @@ Respond with ONLY this JSON, no preamble or explanation:
 
         var instructions = new List<string>();
         var hasPhilosophical = vibes.Contains("philosophical");
-        var hasHumour = vibes.Contains("humour");
-        var hasDarkHumour = vibes.Contains("dark-humour");
-        var regularVibes = vibes.Where(v => v != "philosophical" && v != "humour" && v != "dark-humour").ToList();
+        var hasNostalgic = vibes.Contains("nostalgic");
+        var regularVibes = vibes.Where(v => v != "philosophical").ToList();
 
         // Build base vibe instruction
         if (regularVibes.Any())
         {
             var vibeList = string.Join(", ", regularVibes.Select(v => $"'{v}'"));
             instructions.Add($"The user wants {(regularVibes.Count > 1 ? "a blend of" : "a")} {vibeList} vibe{(regularVibes.Count > 1 ? "s" : "")}. Adapt the tone to match {(regularVibes.Count > 1 ? "these moods" : "this mood")} perfectly.");
+        }
+
+        // Add nostalgic-specific instruction
+        if (hasNostalgic)
+        {
+            instructions.Add(@"NOSTALGIC MODE: Evoke a sense of longing for the past WITHOUT overusing the word 'remember'. Use varied nostalgic vocabulary like:
+- Time words: 'back then', 'those days', 'once upon a time', 'used to', 'when we were'
+- Emotional words: 'miss', 'longing', 'yearning', 'echoes of', 'traces of', 'fragments of'
+- Sensory words: 'faded', 'worn', 'vintage', 'timeless', 'classic'
+- Reflective phrases: 'looking back', 'time flies', 'where did the time go', 'feels like yesterday'
+- Poetic alternatives: 'still taste those moments', 'holding onto', 'never forget', 'forever in my mind'
+
+IMPORTANT: Avoid starting with 'remember' or using it repeatedly. Be creative with nostalgic language.");
         }
 
         // Add philosophical instruction
@@ -258,36 +275,6 @@ The quote must:
 - Be woven naturally into the caption, not just tagged on
 
 Format: Either start with the quote or weave it throughout. Example: 'as camus said, the only way to deal with an unfree world is to become so absolutely free that your very existence is an act of rebellion' or 'marcus aurelius knew: you have power over your mind, not outside events'");
-        }
-
-        // Add humour instruction
-        if (hasHumour)
-        {
-            instructions.Add(@"HUMOUR MODE: The caption must be funny, witty, or comedic. Use humor styles like:
-- Self-deprecating humor: 'main character? more like background extra'
-- Observational comedy: 'why do I look like I'm solving a murder mystery'
-- Absurdist humor: 'same energy as a confused pigeon'
-- Wholesome funny: 'accidentally became a meme'
-- Relatable jokes: 'when you're your own worst enemy but also your biggest fan'
-- Pop culture references with a twist
-- Unexpected punchlines
-
-Make it genuinely funny but authentic to the image. Not forced or try-hard.");
-        }
-
-        // Add dark humour instruction
-        if (hasDarkHumour)
-        {
-            instructions.Add(@"DARK HUMOUR MODE: The caption must have dark, morbid, or edgy humor while staying tasteful. Use styles like:
-- Existential dread humor: 'smiling through the void'
-- Morbid observations: 'one day closer to becoming a ghost'
-- Cynical takes: 'optimism is a skill issue'
-- Gallows humor: 'thriving is a strong word, existing works'
-- Ironic positivity: 'living my best life (threat)'
-- Nihilistic but funny: 'everything's meaningless but at least I look good'
-- Dark but relatable: 'my therapist will hear about this'
-
-Keep it edgy but clever, never offensive or inappropriate. Dark humor should punch up or be self-directed.");
         }
 
         // Combine vibes instruction

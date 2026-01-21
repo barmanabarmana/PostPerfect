@@ -1,9 +1,45 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&display=swap');
 
-body {
-  background: #0a0a0a;
-  min-height: 100vh;
+@theme {
+  --color-*: initial;
+  --font-family-instagram: system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  /* --- BASE LAYOUT --- */
+  --bg-body: #000000;          /* The main background */
+  --bg-surface: #121212;       /* Slightly lighter for popups */
+  --border-color: #262626;     /* Subtle separator lines */
+
+  /* --- TYPOGRAPHY --- */
+  --text-primary: #FFFFFF;     /* Bright White */
+  --text-secondary: #A8A8A8;   /* Light Gray */
+  --text-tertiary: #8E8E8E;    /* Darker Gray */
+
+  /* --- UI ACTIONS --- */
+  --ui-like-red: #ED4956;      /* The specific red from the heart icon */
+  --ui-link-blue: #0095F6;     /* Standard accent blue */
+  --icon-stroke: #FFFFFF;      /* Icon outlines */
+
+  /* --- PHOTO ACCENTS (Optional) --- */
+  --accent-brick: #C67C65;
+  --accent-denim: #4B6D8F;
+  --accent-cake: #F2E6C2;
+}
+
+@layer base {
+  html {
+    background-color: var(--bg-body);
+    color-scheme: dark;
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
 }
 
 .font-handwriting {
