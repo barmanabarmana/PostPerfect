@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&display=swap');
+
+body {
+  background: #0a0a0a;
+  min-height: 100vh;
+}
+
+.font-handwriting {
+  font-family: 'Caveat', cursive;
+}
