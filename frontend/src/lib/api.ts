@@ -1,8 +1,9 @@
 import axios from 'axios';
 import type { AnalyzeResponse } from '../types/api';
 
+// Use environment variable for API URL, fallback to relative path for local development
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
 });
 
 export async function analyzePhoto(
