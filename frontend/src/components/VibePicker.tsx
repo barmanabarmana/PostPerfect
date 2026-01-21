@@ -1,6 +1,6 @@
 interface VibePickerProps {
-  selectedVibe: string | null;
-  onVibeSelect: (vibe: string | null) => void;
+  selectedVibes: string[];
+  onVibeSelect: (vibes: string[]) => void;
   disabled?: boolean;
 }
 
@@ -21,21 +21,32 @@ const VIBES = [
   { id: 'wild', emoji: '🦁', label: 'Wild' },
   { id: 'cozy', emoji: '🧸', label: 'Cozy' },
   { id: 'inspiring', emoji: '🌟', label: 'Inspiring' },
+  { id: 'philosophical', emoji: '🧠', label: 'Philosophical' },
+  { id: 'humour', emoji: '😄', label: 'Humour' },
+  { id: 'dark-humour', emoji: '💀', label: 'Dark Humour' },
 ];
 
-export function VibePicker({ selectedVibe, onVibeSelect, disabled }: VibePickerProps) {
+export function VibePicker({ selectedVibes, onVibeSelect, disabled }: VibePickerProps) {
+  const handleVibeClick = (vibeId: string) => {
+    if (selectedVibes.includes(vibeId)) {
+      onVibeSelect(selectedVibes.filter(id => id !== vibeId));
+    } else {
+      onVibeSelect([...selectedVibes, vibeId]);
+    }
+  };
+
   return (
     <div className="space-y-3">
-      <p className="text-neutral-400 text-sm">Choose a vibe (optional)</p>
+      <p className="text-neutral-400 text-sm">Choose vibes (optional, can select multiple)</p>
       <div className="flex flex-wrap gap-2">
         {VIBES.map((vibe) => (
           <button
             key={vibe.id}
-            onClick={() => onVibeSelect(selectedVibe === vibe.id ? null : vibe.id)}
+            onClick={() => handleVibeClick(vibe.id)}
             disabled={disabled}
             className={`
               px-4 py-2 rounded-full text-sm font-medium transition-all
-              ${selectedVibe === vibe.id
+              ${selectedVibes.includes(vibe.id)
                 ? 'bg-neutral-700 text-white border border-neutral-600'
                 : 'bg-neutral-900 text-neutral-300 hover:bg-neutral-800 border border-neutral-800'}
               ${disabled ? 'opacity-50 cursor-not-allowed' : ''}

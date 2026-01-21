@@ -9,8 +9,8 @@ interface InstagramPreviewProps {
   onReset: () => void;
   onRegenerate?: () => void;
   isRegenerating?: boolean;
-  vibe: string | null;
-  onVibeChange: (vibe: string | null) => void;
+  vibes: string[];
+  onVibesChange: (vibes: string[]) => void;
   language: string | null;
   onLanguageChange: (language: string | null) => void;
 }
@@ -21,13 +21,13 @@ export function InstagramPreview({
   onReset,
   onRegenerate,
   isRegenerating,
-  vibe,
-  onVibeChange,
+  vibes,
+  onVibesChange,
   language,
   onLanguageChange
 }: InstagramPreviewProps) {
   const [showAnimation, setShowAnimation] = useState(false);
-  const [lastVibe, setLastVibe] = useState(vibe);
+  const [lastVibes, setLastVibes] = useState(vibes);
   const [lastLanguage, setLastLanguage] = useState(language);
 
   // Generate random likes and comments count
@@ -42,15 +42,18 @@ export function InstagramPreview({
 
   useEffect(() => {
     if (onRegenerate && !isRegenerating) {
-      if (vibe !== lastVibe || language !== lastLanguage) {
-        setLastVibe(vibe);
+      const vibesChanged = JSON.stringify(vibes) !== JSON.stringify(lastVibes);
+      const languageChanged = language !== lastLanguage;
+
+      if (vibesChanged || languageChanged) {
+        setLastVibes(vibes);
         setLastLanguage(language);
-        if (lastVibe !== null || lastLanguage !== null) {
+        if (lastVibes.length > 0 || lastLanguage !== null) {
           onRegenerate();
         }
       }
     }
-  }, [vibe, language, lastVibe, lastLanguage, onRegenerate, isRegenerating]);
+  }, [vibes, language, lastVibes, lastLanguage, onRegenerate, isRegenerating]);
 
   const formatNumber = (num: number) => {
     if (num >= 1000) {
@@ -161,8 +164,8 @@ export function InstagramPreview({
       {/* Controls below Instagram post */}
       <div className="mt-8 space-y-4">
         <VibePicker
-          selectedVibe={vibe}
-          onVibeSelect={onVibeChange}
+          selectedVibes={vibes}
+          onVibeSelect={onVibesChange}
           disabled={isRegenerating}
         />
         <LanguagePicker

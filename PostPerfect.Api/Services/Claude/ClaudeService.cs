@@ -36,9 +36,7 @@ public class ClaudeService : IClaudeService
             _ => "image/jpeg"
         };
         
-        var vibeInstruction = string.IsNullOrEmpty(vibe) 
-            ? "Determine the mood naturally from the image. Aim for an authentic, non-cliché vibe."
-            : $"The user wants a '{vibe}' vibe. Adapt the tone to match this specific mood perfectly.";
+        var vibeInstruction = GenerateVibeInstruction(vibe);
 
         var languageMap = new Dictionary<string, string>
         {
@@ -211,6 +209,94 @@ Respond with ONLY this JSON, no preamble or explanation:
         });
 
         return result ?? throw new InvalidOperationException("Failed to parse Claude response");
+    }
+
+    private static string GenerateVibeInstruction(string? vibe)
+    {
+        if (string.IsNullOrEmpty(vibe))
+        {
+            return "Determine the mood naturally from the image. Aim for an authentic, non-cliché vibe.";
+        }
+
+        var vibes = vibe.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .Select(v => v.ToLowerInvariant())
+            .ToList();
+
+        if (vibes.Count == 0)
+        {
+            return "Determine the mood naturally from the image. Aim for an authentic, non-cliché vibe.";
+        }
+
+        var instructions = new List<string>();
+        var hasPhilosophical = vibes.Contains("philosophical");
+        var hasHumour = vibes.Contains("humour");
+        var hasDarkHumour = vibes.Contains("dark-humour");
+        var regularVibes = vibes.Where(v => v != "philosophical" && v != "humour" && v != "dark-humour").ToList();
+
+        // Build base vibe instruction
+        if (regularVibes.Any())
+        {
+            var vibeList = string.Join(", ", regularVibes.Select(v => $"'{v}'"));
+            instructions.Add($"The user wants {(regularVibes.Count > 1 ? "a blend of" : "a")} {vibeList} vibe{(regularVibes.Count > 1 ? "s" : "")}. Adapt the tone to match {(regularVibes.Count > 1 ? "these moods" : "this mood")} perfectly.");
+        }
+
+        // Add philosophical instruction
+        if (hasPhilosophical)
+        {
+            instructions.Add(@"PHILOSOPHICAL MODE: The caption must incorporate a relevant quote or wisdom from a known philosopher, professor, or thinker that deeply connects to what's happening in the image. Choose from thinkers like:
+- Existentialists: Camus, Sartre, Nietzsche, Kierkegaard
+- Ancient: Seneca, Marcus Aurelius, Epictetus, Aristotle, Plato
+- Modern: Carl Sagan, Alan Watts, Jordan Peterson, Yuval Harari
+- Eastern: Lao Tzu, Buddha, Confucius, Rumi
+- Contemporary: Brené Brown, Naval Ravikant, James Clear
+
+The quote must:
+- Match the context and mood of the image perfectly
+- Be authentic and accurately attributed
+- Not be overused or cliché
+- Relate to what the image represents (friendship, solitude, achievement, nature, etc.)
+- Be woven naturally into the caption, not just tagged on
+
+Format: Either start with the quote or weave it throughout. Example: 'as camus said, the only way to deal with an unfree world is to become so absolutely free that your very existence is an act of rebellion' or 'marcus aurelius knew: you have power over your mind, not outside events'");
+        }
+
+        // Add humour instruction
+        if (hasHumour)
+        {
+            instructions.Add(@"HUMOUR MODE: The caption must be funny, witty, or comedic. Use humor styles like:
+- Self-deprecating humor: 'main character? more like background extra'
+- Observational comedy: 'why do I look like I'm solving a murder mystery'
+- Absurdist humor: 'same energy as a confused pigeon'
+- Wholesome funny: 'accidentally became a meme'
+- Relatable jokes: 'when you're your own worst enemy but also your biggest fan'
+- Pop culture references with a twist
+- Unexpected punchlines
+
+Make it genuinely funny but authentic to the image. Not forced or try-hard.");
+        }
+
+        // Add dark humour instruction
+        if (hasDarkHumour)
+        {
+            instructions.Add(@"DARK HUMOUR MODE: The caption must have dark, morbid, or edgy humor while staying tasteful. Use styles like:
+- Existential dread humor: 'smiling through the void'
+- Morbid observations: 'one day closer to becoming a ghost'
+- Cynical takes: 'optimism is a skill issue'
+- Gallows humor: 'thriving is a strong word, existing works'
+- Ironic positivity: 'living my best life (threat)'
+- Nihilistic but funny: 'everything's meaningless but at least I look good'
+- Dark but relatable: 'my therapist will hear about this'
+
+Keep it edgy but clever, never offensive or inappropriate. Dark humor should punch up or be self-directed.");
+        }
+
+        // Combine vibes instruction
+        if (vibes.Count > 1)
+        {
+            instructions.Add($"IMPORTANT: Seamlessly blend all {vibes.Count} requested vibes into one cohesive caption. The result should feel natural, not forced or disjointed.");
+        }
+
+        return string.Join("\n\n", instructions);
     }
 
     private static string ExtractJson(string text)

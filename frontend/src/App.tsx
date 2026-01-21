@@ -9,7 +9,7 @@ import { useAnalyze } from './hooks/useAnalyze';
 function App() {
   const [photo, setPhoto] = useState<File | null>(null);
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
-  const [vibe, setVibe] = useState<string | null>(null);
+  const [vibes, setVibes] = useState<string[]>([]);
   const [language, setLanguage] = useState<string | null>(null);
 
   const { result, isLoading, error, analyze, regenerate, reset } = useAnalyze();
@@ -21,18 +21,20 @@ function App() {
 
   const handleAnalyze = async () => {
     if (!photo) return;
-    await analyze(photo, vibe || undefined, language || undefined);
+    const vibeString = vibes.length > 0 ? vibes.join(',') : undefined;
+    await analyze(photo, vibeString, language || undefined);
   };
 
   const handleRegenerate = async () => {
     if (!photo) return;
-    await regenerate(photo, vibe || undefined, language || undefined);
+    const vibeString = vibes.length > 0 ? vibes.join(',') : undefined;
+    await regenerate(photo, vibeString, language || undefined);
   };
 
   const handleReset = () => {
     setPhoto(null);
     setPhotoUrl(null);
-    setVibe(null);
+    setVibes([]);
     setLanguage(null);
     reset();
   };
@@ -55,8 +57,8 @@ function App() {
             onReset={handleReset}
             onRegenerate={handleRegenerate}
             isRegenerating={isLoading}
-            vibe={vibe}
-            onVibeChange={setVibe}
+            vibes={vibes}
+            onVibesChange={setVibes}
             language={language}
             onLanguageChange={setLanguage}
           />
@@ -102,8 +104,8 @@ function App() {
               {photo && (
                 <>
                   <VibePicker
-                    selectedVibe={vibe}
-                    onVibeSelect={setVibe}
+                    selectedVibes={vibes}
+                    onVibeSelect={setVibes}
                     disabled={isLoading}
                   />
 
