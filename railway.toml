@@ -2,7 +2,7 @@
 builder = "nixpacks"
 
 [deploy]
-startCommand = "dotnet PostPerfect.Api/PostPerfect.Api.dll"
+startCommand = "cd PostPerfect.Api && dotnet out/PostPerfect.Api.dll"
 healthcheckPath = "/"
 healthcheckTimeout = 100
 restartPolicyType = "on_failure"
