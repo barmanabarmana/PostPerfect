@@ -20,7 +20,8 @@ FROM mcr.microsoft.com/dotnet/nightly/aspnet:10.0 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-# Configure ASP.NET Core to listen on Railway's PORT
-ENV ASPNETCORE_URLS=http://+:$PORT
+# Default port (Railway will override with PORT env var)
+ENV PORT=8080
 
-ENTRYPOINT ["dotnet", "PostPerfect.Api.dll"]
+# Use shell form to allow environment variable expansion at runtime
+CMD ASPNETCORE_URLS=http://0.0.0.0:${PORT} dotnet PostPerfect.Api.dll
