@@ -81,7 +81,7 @@ export function InstagramPreview({
         <div className="flex items-center justify-between px-3 py-2.5" style={{ backgroundColor: bgColor }}>
           <div className="flex items-center gap-2.5">
             {/* Profile picture - using uploaded photo */}
-            <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-pink-500 ring-offset-2" style={{ ringOffsetColor: bgColor }}>
+            <div className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-pink-500 ring-offset-2" style={{ '--tw-ring-offset-color': bgColor } as React.CSSProperties}>
               <img
                 src={imageUrl}
                 alt="Profile"
