@@ -20,8 +20,8 @@ FROM mcr.microsoft.com/dotnet/nightly/aspnet:10.0 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-# Default port (Railway will override with PORT env var)
-ENV PORT=8080
+# Expose port
+EXPOSE 8080
 
-# Use shell form to allow environment variable expansion at runtime
-CMD ASPNETCORE_URLS=http://0.0.0.0:${PORT} dotnet PostPerfect.Api.dll
+# Use shell to expand PORT variable at runtime
+CMD /bin/sh -c "dotnet PostPerfect.Api.dll --urls http://0.0.0.0:${PORT:-8080}"
