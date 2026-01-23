@@ -13,7 +13,7 @@ const LANGUAGES = [
   { id: 'pt', label: 'Portuguese', flag: '🇵🇹', grayscale: false },
   { id: 'no', label: 'Norwegian', flag: '🇳🇴', grayscale: false },
   { id: 'ua', label: 'Ukrainian', flag: '🇺🇦', grayscale: false },
-  { id: 'ru', label: 'Russian', flag: '🇷🇺', grayscale: true },
+  { id: 'ru', label: 'Russian', flag: '⬜', grayscale: false },
   { id: 'ja', label: 'Japanese', flag: '🇯🇵', grayscale: false },
   { id: 'ko', label: 'Korean', flag: '🇰🇷', grayscale: false },
   { id: 'zh', label: 'Chinese', flag: '🇨🇳', grayscale: false },

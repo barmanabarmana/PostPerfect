@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import type { AnalyzeResponse } from '../types/api';
 import { VibePicker } from './VibePicker';
 import { LanguagePicker } from './LanguagePicker';
@@ -32,6 +32,7 @@ export function InstagramPreview({
   onHintsChange
 }: InstagramPreviewProps) {
   const [showAnimation, setShowAnimation] = useState(false);
+  const postRef = useRef<HTMLDivElement>(null);
 
   // Instagram UI colors - using dark theme surface color
   const iconColor = '#FFFFFF';
@@ -48,6 +49,13 @@ export function InstagramPreview({
     setShowAnimation(true);
   }, []);
 
+  // Scroll to post when result changes (after regeneration)
+  useEffect(() => {
+    if (result && postRef.current) {
+      postRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [result]);
+
   const formatNumber = (num: number) => {
     if (num >= 1000) {
       return (num / 1000).toFixed(1).replace('.0', '') + 'k';
@@ -58,7 +66,7 @@ export function InstagramPreview({
   return (
     <div className="max-w-lg mx-auto">
       {/* Instagram Post */}
-      <div className={`border rounded-sm overflow-hidden transition-all duration-700 ${showAnimation ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`} style={{ backgroundColor: bgColor, borderColor: '#262626' }}>
+      <div ref={postRef} className={`border rounded-sm overflow-hidden transition-all duration-700 ${showAnimation ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`} style={{ backgroundColor: bgColor, borderColor: '#262626' }}>
 
         {/* Header */}
         <div className="flex items-center justify-between px-3 py-2.5" style={{ backgroundColor: bgColor }}>
