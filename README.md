@@ -1,8 +1,8 @@
-# QuoteIT 📸✨
+# CaptionIT 📸✨
 
 **Turn your photos into Instagram-ready posts with AI.**
 
-QuoteIT is a completely stateless web application that analyzes uploaded photos to generate matching quotes, moods, hashtags recommendations.
+CaptionIT is a completely stateless web application that analyzes uploaded photos to generate matching quotes, moods, hashtags recommendations.
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Status](https://img.shields.io/badge/status-development-orange)
@@ -11,7 +11,7 @@ QuoteIT is a completely stateless web application that analyzes uploaded photos 
 
 ## 📖 Overview
 
-QuoteIT operates on a **stateless** core principle: no database, no photo storage, and everything is processed in-memory. The application uses Claude AI to "see" your image and interpret its vibe.
+CaptionIT operates on a **stateless** core principle: no database, no photo storage, and everything is processed in-memory. The application uses Claude AI to "see" your image and interpret its vibe.
 
 ### Key Features
 * **AI Analysis:** Uses Anthropic Claude to determine mood and generate Instagram-worthy quotes.
@@ -36,12 +36,12 @@ QuoteIT operates on a **stateless** core principle: no database, no photo storag
 ## 🚀 Getting Started
 ### 1. Clone the Repository
 ```
-https://github.com/barmanabarmana/QuoteIT.git
+https://github.com/barmanabarmana/CaptionIT.git
 ```
 ### 2. Backend Setup
 Navigate to the API directory and configure your user secrets or development settings.
 ```
-cd src/QuoteIT.Api
+cd src/CaptionIT.Api
 ```
 Open appsettings.Development.json and add your keys:
 

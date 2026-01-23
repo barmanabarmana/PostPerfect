@@ -1,9 +1,9 @@
 using FastEndpoints;
-using QuoteIT.Api.Services.Claude;
+using CaptionIT.Api.Services.Claude;
 // SPOTIFY API TEMPORARILY DISABLED - API access closed by Spotify
-// using QuoteIT.Api.Services.Spotify;
+// using CaptionIT.Api.Services.Spotify;
 
-namespace QuoteIT.Api.Features.Analyze;
+namespace CaptionIT.Api.Features.Analyze;
 
 public class AnalyzeEndpoint(
     IClaudeService claudeService,

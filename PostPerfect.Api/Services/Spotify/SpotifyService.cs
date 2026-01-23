@@ -8,7 +8,7 @@ using System.Text.Json;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 
-namespace QuoteIT.Api.Services.Spotify;
+namespace CaptionIT.Api.Services.Spotify;
 
 public class SpotifyService : ISpotifyService
 {

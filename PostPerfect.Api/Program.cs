@@ -1,6 +1,6 @@
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using QuoteIT.Api.Common.Extensions;
+using CaptionIT.Api.Common.Extensions;
 using Scalar.AspNetCore;
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.RateLimiting;
@@ -42,7 +42,7 @@ builder.Services.SwaggerDocument(o =>
 {
     o.DocumentSettings = s =>
     {
-        s.Title = "QuoteIT API";
+        s.Title = "CaptionIT API";
         s.Version = "v1";
         s.Description = "AI-powered Instagram caption generator";
     };
@@ -102,7 +102,7 @@ if (app.Environment.IsDevelopment())
     app.UseOpenApi(c => c.Path = "/openapi/{documentName}.json");
     app.MapScalarApiReference(o =>
     {
-        o.Title = $"QuoteIT {builder.Environment.EnvironmentName}";
+        o.Title = $"CaptionIT {builder.Environment.EnvironmentName}";
         o.PersistentAuthentication = true;
     });
 }

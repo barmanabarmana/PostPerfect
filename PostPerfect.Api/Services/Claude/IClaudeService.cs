@@ -1,4 +1,4 @@
-namespace QuoteIT.Api.Services.Claude;
+namespace CaptionIT.Api.Services.Claude;
 
 public interface IClaudeService
 {

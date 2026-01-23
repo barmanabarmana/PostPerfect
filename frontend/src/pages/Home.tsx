@@ -97,7 +97,7 @@ export function Home() {
       <div className="text-center mb-12">
         <button onClick={handleReset} className="inline-block cursor-pointer hover:opacity-80 transition-opacity">
           <h1 className="text-5xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
-            Quote<span className="bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F77737] bg-clip-text text-transparent">IT</span>
+            Caption<span className="bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F77737] bg-clip-text text-transparent">IT</span>
           </h1>
         </button>
       </div>

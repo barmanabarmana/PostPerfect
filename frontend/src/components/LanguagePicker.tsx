@@ -24,7 +24,7 @@ const LANGUAGES = [
 export function LanguagePicker({ selectedLanguage, onLanguageSelect, disabled }: LanguagePickerProps) {
   return (
     <div className="space-y-3">
-      <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Choose quote language (optional)</p>
+      <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Choose caption language (optional)</p>
       <div className="flex flex-wrap gap-2">
         {LANGUAGES.map((language) => (
           <button

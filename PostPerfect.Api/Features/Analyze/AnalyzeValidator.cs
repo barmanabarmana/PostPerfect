@@ -1,7 +1,7 @@
 using FastEndpoints;
 using FluentValidation;
 
-namespace QuoteIT.Api.Features.Analyze;
+namespace CaptionIT.Api.Features.Analyze;
 
 public class AnalyzeValidator : Validator<AnalyzeRequest>
 {
