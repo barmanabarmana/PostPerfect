@@ -8,5 +8,8 @@ PORT=${PORT:-80}
 # Update nginx config to listen on the correct port
 sed -i "s/listen 80;/listen ${PORT};/g" /etc/nginx/conf.d/default.conf
 
+# Inject runtime environment variables
+/inject-env.sh
+
 # Start nginx
 exec nginx -g 'daemon off;'
