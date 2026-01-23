@@ -1,6 +1,6 @@
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using PostPerfect.Api.Common.Extensions;
+using QuoteIT.Api.Common.Extensions;
 using Scalar.AspNetCore;
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.RateLimiting;
@@ -42,9 +42,9 @@ builder.Services.SwaggerDocument(o =>
 {
     o.DocumentSettings = s =>
     {
-        s.Title = "PostPerfectAPI";
+        s.Title = "QuoteIT API";
         s.Version = "v1";
-        s.Description = "AI-powered Instagram post generator";
+        s.Description = "AI-powered Instagram caption generator";
     };
 });
 
@@ -102,7 +102,7 @@ if (app.Environment.IsDevelopment())
     app.UseOpenApi(c => c.Path = "/openapi/{documentName}.json");
     app.MapScalarApiReference(o =>
     {
-        o.Title = $"Post Perfect {builder.Environment.EnvironmentName}";
+        o.Title = $"QuoteIT {builder.Environment.EnvironmentName}";
         o.PersistentAuthentication = true;
     });
 }

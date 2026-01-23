@@ -1,4 +1,4 @@
-namespace PostPerfect.Api.Services.Claude;
+namespace QuoteIT.Api.Services.Claude;
 
 public class ClaudeOptions
 {

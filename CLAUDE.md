@@ -1,10 +1,10 @@
-# PostPerfect - Complete Project Documentation
+# QuoteIT - Complete Project Documentation
 
 > **AI-powered Instagram post generator that analyzes photos to create authentic, mood-matching captions with hashtag suggestions**
 
 ## 🎯 Project Overview
 
-PostPerfect is a **stateless web application** that transforms uploaded photos into Instagram-ready content. Using Claude AI's vision capabilities, it analyzes images to generate authentic captions that match the emotional tone and aesthetic of the photo, along with curated hashtag suggestions.
+QuoteIT is a **stateless web application** that transforms uploaded photos into Instagram-ready content. Using Claude AI's vision capabilities, it analyzes images to generate authentic captions that match the emotional tone and aesthetic of the photo, along with curated hashtag suggestions.
 
 ### Core Principles
 - **Zero Data Storage**: Images are processed in-memory only, never saved to disk or database
@@ -51,10 +51,10 @@ PostPerfect is a **stateless web application** that transforms uploaded photos i
 ### Project Structure
 
 ```
-PostPerfect/
-├── PostPerfect.Api/                    # Backend API
+QuoteIT/
+├── QuoteIT.Api/                    # Backend API
 │   ├── Program.cs                      # Application entry point, DI, middleware
-│   ├── PostPerfect.Api.csproj          # Project file (.NET 10)
+│   ├── QuoteIT.Api.csproj          # Project file (.NET 10)
 │   ├── appsettings.json                # Base configuration
 │   ├── appsettings.Development.json    # Development secrets
 │   ├── railway.json                    # Railway config
@@ -125,13 +125,13 @@ PostPerfect/
 │   └── public/                         # Static assets
 │
 ├── Dockerfile.backend                  # Backend Docker config
-├── PostPerfect.sln                     # .NET solution file
+├── QuoteIT.sln                     # .NET solution file
 ├── .gitignore
 │
 └── Documentation/
     ├── README.md                       # Quick start guide
     ├── CLAUDE.md                       # This file
-    ├── PostPerfect-Architecture.md     # Original architecture doc
+    ├── QuoteIT-Architecture.md     # Original architecture doc
     ├── RAILWAY-DEPLOYMENT.md           # Railway deployment guide
     ├── FRONTEND-SETUP.md               # Frontend setup instructions
     └── SECURITY-SETUP.md               # API key configuration guide
@@ -364,7 +364,7 @@ VITE_API_URL=https://your-backend.railway.app/api
 
 ```bash
 # Navigate to API directory
-cd PostPerfect.Api
+cd QuoteIT.Api
 
 # Create development settings (copy from example)
 cp appsettings.Development.json.example appsettings.Development.json
@@ -420,22 +420,22 @@ Located at: `Dockerfile.backend`
 # Build stage with .NET 10 SDK
 FROM mcr.microsoft.com/dotnet/nightly/sdk:10.0 AS build
 WORKDIR /src
-COPY PostPerfect.Api/PostPerfect.Api.csproj PostPerfect.Api/
-RUN dotnet restore "PostPerfect.Api/PostPerfect.Api.csproj"
-COPY PostPerfect.Api/ PostPerfect.Api/
-WORKDIR /src/PostPerfect.Api
-RUN dotnet build "PostPerfect.Api.csproj" -c Release -o /app/build
+COPY QuoteIT.Api/QuoteIT.Api.csproj QuoteIT.Api/
+RUN dotnet restore "QuoteIT.Api/QuoteIT.Api.csproj"
+COPY QuoteIT.Api/ QuoteIT.Api/
+WORKDIR /src/QuoteIT.Api
+RUN dotnet build "QuoteIT.Api.csproj" -c Release -o /app/build
 
 # Publish stage
 FROM build AS publish
-RUN dotnet publish "PostPerfect.Api.csproj" -c Release -o /app/publish
+RUN dotnet publish "QuoteIT.Api.csproj" -c Release -o /app/publish
 
 # Runtime stage with .NET 10 ASP.NET runtime
 FROM mcr.microsoft.com/dotnet/nightly/aspnet:10.0 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 EXPOSE 8080
-CMD /bin/sh -c "dotnet PostPerfect.Api.dll --urls http://0.0.0.0:${PORT:-8080}"
+CMD /bin/sh -c "dotnet QuoteIT.Api.dll --urls http://0.0.0.0:${PORT:-8080}"
 ```
 
 ### Frontend Dockerfile
@@ -603,11 +603,11 @@ policy.WithOrigins(allowedOrigins.ToArray())
 ### Adding New Features
 
 **New Vibe Type:**
-1. Update `ClaudeService.GenerateVibeInstruction()` (PostPerfect.Api/Services/Claude/ClaudeService.cs:219)
+1. Update `ClaudeService.GenerateVibeInstruction()` (QuoteIT.Api/Services/Claude/ClaudeService.cs:219)
 2. Add vibe button to `VibePicker.tsx` (frontend/src/components/VibePicker.tsx)
 
 **New Language:**
-1. Add language code to `languageMap` (PostPerfect.Api/Services/Claude/ClaudeService.cs:42)
+1. Add language code to `languageMap` (QuoteIT.Api/Services/Claude/ClaudeService.cs:42)
 2. Add language option to `LanguagePicker.tsx` (frontend/src/components/LanguagePicker.tsx)
 
 **New Endpoint:**
@@ -623,7 +623,7 @@ policy.WithOrigins(allowedOrigins.ToArray())
 - **RAILWAY-DEPLOYMENT.md**: Step-by-step Railway deployment guide
 - **FRONTEND-SETUP.md**: Detailed frontend setup instructions
 - **SECURITY-SETUP.md**: API key configuration guide
-- **PostPerfect-Architecture.md**: Original architecture documentation
+- **QuoteIT-Architecture.md**: Original architecture documentation
 
 ---
 

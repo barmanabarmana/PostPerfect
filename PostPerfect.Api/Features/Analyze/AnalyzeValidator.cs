@@ -1,7 +1,7 @@
 using FastEndpoints;
 using FluentValidation;
 
-namespace PostPerfect.Api.Features.Analyze;
+namespace QuoteIT.Api.Features.Analyze;
 
 public class AnalyzeValidator : Validator<AnalyzeRequest>
 {

@@ -1,4 +1,4 @@
-namespace PostPerfect.Api.Features.Analyze;
+namespace QuoteIT.Api.Features.Analyze;
 
 public class AnalyzeRequest
 {

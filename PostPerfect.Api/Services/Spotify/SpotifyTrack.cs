@@ -2,7 +2,7 @@
 // Uncomment when API access is available again
 
 /*
-namespace PostPerfect.Api.Services.Spotify;
+namespace QuoteIT.Api.Services.Spotify;
 
 public record SpotifyTrack(
     string Id,

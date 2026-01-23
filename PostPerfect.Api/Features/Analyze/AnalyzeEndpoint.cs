@@ -1,9 +1,9 @@
 using FastEndpoints;
-using PostPerfect.Api.Services.Claude;
+using QuoteIT.Api.Services.Claude;
 // SPOTIFY API TEMPORARILY DISABLED - API access closed by Spotify
-// using PostPerfect.Api.Services.Spotify;
+// using QuoteIT.Api.Services.Spotify;
 
-namespace PostPerfect.Api.Features.Analyze;
+namespace QuoteIT.Api.Features.Analyze;
 
 public class AnalyzeEndpoint(
     IClaudeService claudeService,

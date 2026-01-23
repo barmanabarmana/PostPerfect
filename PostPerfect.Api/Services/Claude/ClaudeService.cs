@@ -3,7 +3,7 @@ using Anthropic.SDK;
 using Anthropic.SDK.Messaging;
 using Microsoft.Extensions.Options;
 
-namespace PostPerfect.Api.Services.Claude;
+namespace QuoteIT.Api.Services.Claude;
 
 public class ClaudeService : IClaudeService
 {
