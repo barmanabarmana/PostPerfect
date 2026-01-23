@@ -64,8 +64,23 @@ builder.Services.AddCors(options =>
         var productionUrl = builder.Configuration["FrontendUrl"];
         if (!string.IsNullOrEmpty(productionUrl))
         {
-            allowedOrigins.Add(productionUrl);
+            // Normalize the URL - ensure it doesn't have a trailing slash
+            var normalizedUrl = productionUrl.TrimEnd('/');
+            allowedOrigins.Add(normalizedUrl);
+
+            // Also add both http and https versions if not explicitly specified
+            if (normalizedUrl.StartsWith("http://"))
+            {
+                allowedOrigins.Add(normalizedUrl.Replace("http://", "https://"));
+            }
+            else if (normalizedUrl.StartsWith("https://"))
+            {
+                allowedOrigins.Add(normalizedUrl.Replace("https://", "http://"));
+            }
         }
+
+        // Log allowed origins for debugging
+        Console.WriteLine($"CORS - Allowed Origins: {string.Join(", ", allowedOrigins)}");
 
         policy.WithOrigins(allowedOrigins.ToArray())
               .AllowAnyHeader()
