@@ -5,19 +5,20 @@ interface LanguagePickerProps {
 }
 
 const LANGUAGES = [
-  { id: 'en', label: 'English', flag: '🇬🇧' },
-  { id: 'es', label: 'Spanish', flag: '🇪🇸' },
-  { id: 'fr', label: 'French', flag: '🇫🇷' },
-  { id: 'de', label: 'German', flag: '🇩🇪' },
-  { id: 'it', label: 'Italian', flag: '🇮🇹' },
-  { id: 'pt', label: 'Portuguese', flag: '🇵🇹' },
-  { id: 'no', label: 'Norwegian', flag: '🇳🇴' },
-  { id: 'ru', label: 'Russian', flag: '🇷🇺' },
-  { id: 'ja', label: 'Japanese', flag: '🇯🇵' },
-  { id: 'ko', label: 'Korean', flag: '🇰🇷' },
-  { id: 'zh', label: 'Chinese', flag: '🇨🇳' },
-  { id: 'ar', label: 'Arabic', flag: '🇸🇦' },
-  { id: 'hi', label: 'Hindi', flag: '🇮🇳' },
+  { id: 'en', label: 'English', flag: '🇬🇧', grayscale: false },
+  { id: 'es', label: 'Spanish', flag: '🇪🇸', grayscale: false },
+  { id: 'fr', label: 'French', flag: '🇫🇷', grayscale: false },
+  { id: 'de', label: 'German', flag: '🇩🇪', grayscale: false },
+  { id: 'it', label: 'Italian', flag: '🇮🇹', grayscale: false },
+  { id: 'pt', label: 'Portuguese', flag: '🇵🇹', grayscale: false },
+  { id: 'no', label: 'Norwegian', flag: '🇳🇴', grayscale: false },
+  { id: 'ua', label: 'Ukrainian', flag: '🇺🇦', grayscale: false },
+  { id: 'ru', label: 'Russian', flag: '🇷🇺', grayscale: true },
+  { id: 'ja', label: 'Japanese', flag: '🇯🇵', grayscale: false },
+  { id: 'ko', label: 'Korean', flag: '🇰🇷', grayscale: false },
+  { id: 'zh', label: 'Chinese', flag: '🇨🇳', grayscale: false },
+  { id: 'ar', label: 'Arabic', flag: '🇸🇦', grayscale: false },
+  { id: 'hi', label: 'Hindi', flag: '🇮🇳', grayscale: false },
 ];
 
 export function LanguagePicker({ selectedLanguage, onLanguageSelect, disabled }: LanguagePickerProps) {
@@ -45,7 +46,7 @@ export function LanguagePicker({ selectedLanguage, onLanguageSelect, disabled }:
               borderColor: 'var(--border-color)'
             } : {}}
           >
-            {language.flag} {language.label}
+            <span className={language.grayscale ? 'grayscale' : ''}>{language.flag}</span> {language.label}
           </button>
         ))}
       </div>

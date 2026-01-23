@@ -48,6 +48,7 @@ public class ClaudeService : IClaudeService
             { "it", "Italian" },
             { "pt", "Portuguese" },
             { "ru", "Russian" },
+            { "ua", "Ukrainian" },
             { "ja", "Japanese" },
             { "ko", "Korean" },
             { "zh", "Chinese" },
@@ -268,11 +269,15 @@ IMPORTANT: Avoid starting with 'remember' or using it repeatedly. Be creative wi
 - Contemporary: Brené Brown, Naval Ravikant, James Clear
 
 The quote must:
+- ALWAYS have a meaningful connection to either the user's context hints (if provided) OR the specific visual content and mood of the photo
+- If hints are provided, the quote must relate directly to those hints (e.g., if hints mention 'birthday celebration', choose quotes about time, growth, or milestones)
+- If no hints are provided, derive meaning from the photo's context: what the people are doing, where they are, the emotional tone, the relationships visible
 - Match the context and mood of the image perfectly
 - Be authentic and accurately attributed
 - Not be overused or cliché
-- Relate to what the image represents (friendship, solitude, achievement, nature, etc.)
+- Relate to what the image represents (friendship, solitude, achievement, nature, celebration, reflection, etc.)
 - Be woven naturally into the caption, not just tagged on
+- NEVER use generic philosophical quotes that could apply to any photo - the quote must feel specifically chosen for THIS moment
 
 Format: Either start with the quote or weave it throughout. Example: 'as camus said, the only way to deal with an unfree world is to become so absolutely free that your very existence is an act of rebellion' or 'marcus aurelius knew: you have power over your mind, not outside events'");
         }

@@ -32,8 +32,6 @@ export function InstagramPreview({
   onHintsChange
 }: InstagramPreviewProps) {
   const [showAnimation, setShowAnimation] = useState(false);
-  const [lastVibes, setLastVibes] = useState(vibes);
-  const [lastLanguage, setLastLanguage] = useState(language);
 
   // Instagram UI colors - using dark theme surface color
   const iconColor = '#FFFFFF';
@@ -49,21 +47,6 @@ export function InstagramPreview({
   useEffect(() => {
     setShowAnimation(true);
   }, []);
-
-  useEffect(() => {
-    if (onRegenerate && !isRegenerating) {
-      const vibesChanged = JSON.stringify(vibes) !== JSON.stringify(lastVibes);
-      const languageChanged = language !== lastLanguage;
-
-      if (vibesChanged || languageChanged) {
-        setLastVibes(vibes);
-        setLastLanguage(language);
-        if (lastVibes.length > 0 || lastLanguage !== null) {
-          onRegenerate();
-        }
-      }
-    }
-  }, [vibes, language, lastVibes, lastLanguage, onRegenerate, isRegenerating]);
 
   const formatNumber = (num: number) => {
     if (num >= 1000) {
@@ -176,7 +159,6 @@ export function InstagramPreview({
         <HintsInput
           hints={hints}
           onHintsChange={onHintsChange}
-          onSubmit={onRegenerate}
           disabled={isRegenerating}
         />
 
